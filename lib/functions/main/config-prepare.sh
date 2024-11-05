@@ -31,7 +31,8 @@ function prepare_and_config_main_build_single() {
 	date +"%d_%m_%Y-%H_%M_%S" > "${DEST}"/${LOG_SUBPATH}/timestamp
 
 	# delete compressed logs older than 7 days
-	(cd "${DEST}"/${LOG_SUBPATH} && find . -name '*.tgz' -mtime +7 -delete) > /dev/null
+	#(cd "${DEST}"/${LOG_SUBPATH} && find . -name '*.tgz' -mtime +7 -delete) > /dev/null
+	(cd "${DEST}"/${LOG_SUBPATH} && find . -name '*.tgz' -delete) > /dev/null
 
 	if [[ $PROGRESS_DISPLAY == none ]]; then
 

@@ -6,28 +6,38 @@ function get_urls() {
 	case $catalog in
 		toolchain)
 			local CCODE=$(curl --silent --fail https://dl.armbian.com/geoip | jq '.continent.code' -r)
-			local urls=(
+			#local urls=(
 				# "https://dl.armbian.com/_toolchain/${filename}"
 
-				$(
-					curl --silent --fail "https://dl.armbian.com/mirrors" |
-						jq -r "(${CCODE:+.${CCODE} // } .default) | .[]" |
-						sed "s#\$#/_toolchain/${filename}#"
-				)
+			#	$(
+			#		curl --silent --fail "https://dl.armbian.com/mirrors" |
+			#			jq -r "(${CCODE:+.${CCODE} // } .default) | .[]" |
+			#			sed "s#\$#/_toolchain/${filename}#"
+			#	)
+			#)
+			local urls=(
+				#"https://mirrors.jevincanders.net/armbian/dl/"
+				"https://armbian.chi.auroradev.org/dl/_toolchain/${filename}"
+				"https://armbian.lv.auroradev.org/dl/_toolchain/${filename}"
+				"https://armbian.systemonachip.net/dl/_toolchain/${filename}"
 			)
 			;;
 
 		rootfs)
 			local CCODE=$(curl --silent --fail https://cache.armbian.com/geoip | jq '.continent.code' -r)
-			local urls=(
+			#local urls=(
 				# "https://cache.armbian.com/rootfs/${ROOTFSCACHE_VERSION}/${filename}"
-				"https://github.com/armbian/cache/releases/download/${ROOTFSCACHE_VERSION}/${filename}"
+			#	"https://github.com/armbian/cache/releases/download/${ROOTFSCACHE_VERSION}/${filename}"
 
-				$(
-					curl --silent --fail "https://cache.armbian.com/mirrors" |
-						jq -r "(${CCODE:+.${CCODE} // } .default) | .[]" |
-						sed "s#\$#/rootfs/${ROOTFSCACHE_VERSION}/${filename}#"
-				)
+			#	$(
+			#		curl --silent --fail "https://cache.armbian.com/mirrors" |
+			#			jq -r "(${CCODE:+.${CCODE} // } .default) | .[]" |
+			#			sed "s#\$#/rootfs/${ROOTFSCACHE_VERSION}/${filename}#"
+			#	)
+			#)
+			local urls=(
+				"https://armbian.tnahosting.net/cache/rootfs/${ROOTFSCACHE_VERSION}/${filename}"
+				"https://fi.mirror.armbian.de/cache/rootfs/${ROOTFSCACHE_VERSION}/${filename}"
 			)
 			;;
 
@@ -72,11 +82,11 @@ download_and_verify() {
 
 		# Connection
 		--disable-ipv6=$DISABLE_IPV6
-		--connect-timeout=10
-		--timeout=10
+		--connect-timeout=20
+		--timeout=20
 		--allow-piece-length-change=true
-		--max-connection-per-server=2
-		--lowest-speed-limit=500K
+		--max-connection-per-server=16
+		--lowest-speed-limit=1K
 
 		# BT
 		--seed-time=0

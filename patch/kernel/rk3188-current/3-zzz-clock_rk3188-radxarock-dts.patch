@@ -1,0 +1,24 @@
+diff --git a/arch/arm/boot/dts/rk3188-radxarock.dts b/arch/arm/boot/dts/rk3188-radxarock.dts
+index b0fef82c0..fcabb2774 100644
+--- a/arch/arm/boot/dts/rk3188-radxarock.dts
++++ b/arch/arm/boot/dts/rk3188-radxarock.dts
+@@ -153,6 +153,19 @@ &cpu3 {
+     cpu-supply = <&vdd_arm>;
+ };
+
++&cru {
++    assigned-clocks = <&cru PLL_CPLL>, <&cru PLL_GPLL>,
++              <&cru ACLK_CPU>, <&cru HCLK_CPU>,
++              <&cru PCLK_CPU>, <&cru ACLK_PERI>,
++              <&cru HCLK_PERI>, <&cru PCLK_PERI>,
++              <&cru ACLK_LCDC0>, <&cru ACLK_LCDC1>;
++    assigned-clock-rates = <594000000>, <1200000000>,
++                   <300000000>, <150000000>,
++                   <75000000>, <300000000>,
++                   <150000000>, <75000000>,
++                   <297000000>, <297000000>;
++};
++
+ &gpu {
+     status = "okay";
+ };
