@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 compile_uboot() {
 	# not optimal, but extra cleaning before overlayfs_wrapper should keep sources directory clean
-	if [[ $CLEAN_LEVEL == *make* ]]; then
+	if [[ $CLEAN_LEVEL == *make-uboot* ]]; then
 		display_alert "Cleaning" "$BOOTSOURCEDIR" "info"
 		(
 			cd "${SRC}/cache/sources/${BOOTSOURCEDIR}"

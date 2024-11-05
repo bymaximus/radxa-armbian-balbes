@@ -13,7 +13,7 @@ compilation_prepare() {
 			# Patch python2 path for legacy kernels running on newer Debian Bulleys / Ubuntu Kinetic
 			#    Debian has a deb package the symlinks /usr/bin/python3 to /usr/bin/python so better off to Patch older Kernels
 			display_alert "Patching" "python" "info"
-			process_patch_file "${SRC}/patch/misc/general-kernel-python2-5.10.y.patch" "applying"
+			process_patch_file_continue "${SRC}/patch/misc/general-kernel-python2-5.10.y.patch" "applying"
 		fi
 
 		if test -d ${kerneldir}/debian; then

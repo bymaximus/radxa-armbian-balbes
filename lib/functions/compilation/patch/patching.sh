@@ -81,6 +81,30 @@ advanced_patch() {
 # <file>: path to patch file
 # <status>: additional status text
 #
+process_patch_file_continue() {
+	local patch=$1
+	local status=$2
+
+	# detect and remove files which patch will create
+	lsdiff -s --strip=1 "${patch}" | grep '^+' | awk '{print $2}' | xargs -I % sh -c 'rm -f %'
+
+	echo "Processing file $patch" >> "${DEST}"/${LOG_SUBPATH}/patching.log
+	patch --batch --silent -p1 -N < "${patch}" >> "${DEST}"/${LOG_SUBPATH}/patching.log 2>&1
+
+	if [[ $? -ne 0 ]]; then
+		display_alert "* $status $(basename "${patch}")" "failed" "wrn"
+	else
+		display_alert "* $status $(basename "${patch}")" "" "info"
+	fi
+	echo >> "${DEST}"/${LOG_SUBPATH}/patching.log
+}
+
+# process_patch_file <file> <description>
+#
+# parameters:
+# <file>: path to patch file
+# <status>: additional status text
+#
 process_patch_file() {
 	local patch=$1
 	local status=$2

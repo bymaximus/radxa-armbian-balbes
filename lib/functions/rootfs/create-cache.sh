@@ -224,10 +224,12 @@ create_rootfs_cache() {
 			[[ ${EVALPIPE[0]} -ne 0 ]] && exit_with_error "Installation of Armbian desktop packages for ${BRANCH} ${BOARD} ${RELEASE} ${DESKTOP_APPGROUPS_SELECTED} ${DESKTOP_ENVIRONMENT} ${BUILD_MINIMAL} failed"
 		fi
 
-		# stage: check md5 sum of installed packages. Just in case.
-		display_alert "Checking MD5 sum of installed packages" "debsums" "info"
-		chroot $SDCARD /bin/bash -e -c "debsums -s"
-		[[ $? -ne 0 ]] && exit_with_error "MD5 sums check of installed packages failed"
+		if [[ "${FORCE_CHECK_MD5_PACKAGES:-"yes"}" == "yes" ]]; then
+			# stage: check md5 sum of installed packages. Just in case.
+			display_alert "Checking MD5 sum of installed packages" "debsums" "info"
+			chroot $SDCARD /bin/bash -e -c "debsums -s"
+			[[ $? -ne 0 ]] && exit_with_error "MD5 sums check of installed packages failed"
+		fi
 
 		# Remove packages from packages.uninstall
 
